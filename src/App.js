@@ -38,7 +38,7 @@ const App = () => {
   return (
     <DatabasesDataContext.Provider value={databasesData}>
       <div className='flex'>
-        <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} />
+      <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase}/>
         <div>
           <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase}/>
         </div>
