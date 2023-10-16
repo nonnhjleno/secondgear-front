@@ -4,8 +4,6 @@ import { DatabasesDataContext, TablesContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 
 const ShowTables = ({ tables, currentSelectedDatabase }) => {
-    console.log(tables);
-
     if (!tables || typeof tables !== 'object') {
         return null;  // もしくは適当なエラーメッセージを返すなど
     }
