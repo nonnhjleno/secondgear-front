@@ -40,7 +40,7 @@ const App = () => {
       <div className='flex'>
         <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} />
         <div>
-          <ShowTables tables={tables}/>
+          <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase}/>
         </div>
       </div>
     </DatabasesDataContext.Provider>
