@@ -25,7 +25,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (currentSelectedDatabase === undefined) return;
+    if (currentSelectedDatabase === undefined || currentSelectedDatabase === '__initial__') return;
     setIsShowing('tables');
     fetchTables(currentSelectedDatabase)
       .then(result => {
@@ -39,11 +39,21 @@ const App = () => {
       })
   }, [currentSelectedDatabase, databasesData]);
 
+  const handleCreateDatabaseBtn = () => {
+    setIsShowing('initial');
+    setCurrentSelectedDatabase('__initial__');
+  }
+
   return (
     <DatabasesDataContext.Provider value={databasesData}>
       <div className='flex'>
         <div id='sidebar'>
-          <button onClick={() => setIsShowing('initial')}>データベース作成</button>
+          <div
+            onClick={() => handleCreateDatabaseBtn()}
+            className={`p-2 ${isShowing === 'initial' ? 'bg-slate-100 ' : ''}`}
+          >
+            データベース作成
+          </div>
           <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
         </div>
         <div>
