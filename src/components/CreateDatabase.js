@@ -4,7 +4,6 @@ import React from 'react'
 const CreateDatabase = () => {
     const handleSubmit = event => {
 
-        event.preventDefault(); // ページのリロードを防ぐ
         const formData = new FormData(event.target); // フォーム内のデータを取得
         const name = formData.get("name"); // "name"という名前の入力フィールドの値を取得
         console.log(name); // 入力フィールドの値をコンソールに出力
