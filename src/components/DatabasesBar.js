@@ -4,15 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const DatabasesBar = ({ setCurrentSelectedDatabase, currentSelectedDatabase }) => {
     const DatabasesData = useContext(DatabasesDataContext);
-
-    // const handleSetDatabaseName = event => {
-    //     if (event.target.innerHTML === "データベース作成") {
-    //         createDatabaseFlag = true;
-    //         return 0;
-    //     }
-    //     createDatabaseFlag = false;
-    //     setCurrentDatabaseName(event.target.innerHTML);
-    // }
     if (DatabasesData === undefined) return;
 
     return (
