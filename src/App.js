@@ -3,6 +3,7 @@ import './App.css';
 import DatabasesBar from './components/DatabasesBar';
 import axios from 'axios';
 import ShowTables from './components/ShowTables';
+import CreateDatabase from './components/CreateDatabase';
 
 export const DatabasesDataContext = createContext();
 
@@ -47,7 +48,7 @@ const App = () => {
         </div>
         <div>
           {(isShowing === 'initial') && (
-            <p>データベース作成ページ</p>
+            <CreateDatabase />
           )}
           {(isShowing === 'tables') && (
             <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase} />
