@@ -1,6 +1,4 @@
-import { useContext, useEffect } from "react";
 import React from 'react';
-import { DatabasesDataContext, TablesContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 
 const ShowTables = ({ tables, currentSelectedDatabase }) => {

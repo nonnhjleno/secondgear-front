@@ -33,7 +33,7 @@ const App = () => {
       .catch(error => {
         console.error(error);
       })
-  }, [currentSelectedDatabase]);
+  }, [currentSelectedDatabase,databasesData]);
 
   return (
     <DatabasesDataContext.Provider value={databasesData}>
