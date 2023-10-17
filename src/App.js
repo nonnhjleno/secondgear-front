@@ -11,6 +11,8 @@ const App = () => {
   const [tables, setTables] = useState(null);
   const [currentSelectedDatabase, setCurrentSelectedDatabase] = useState();
 
+  const [isShowing, setIsShowing] = useState('initial');
+
   useEffect(() => {
     fetchDatabases()
       .then(result => {
@@ -22,6 +24,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    setIsShowing('tables');
     if (currentSelectedDatabase === undefined) return;
     fetchTables(currentSelectedDatabase)
       .then(result => {
@@ -33,14 +36,17 @@ const App = () => {
       .catch(error => {
         console.error(error);
       })
-  }, [currentSelectedDatabase,databasesData]);
+  }, [currentSelectedDatabase, databasesData]);
 
   return (
     <DatabasesDataContext.Provider value={databasesData}>
       <div className='flex'>
-      <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase}/>
+        {/* <button onClick={() => }>データベース作成</button> */}
+        <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
         <div>
-          <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase}/>
+          {(isShowing === 'tables') && (
+            <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase} />
+          )}
         </div>
       </div>
     </DatabasesDataContext.Provider>
