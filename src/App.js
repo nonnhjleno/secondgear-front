@@ -48,7 +48,8 @@ const App = () => {
     <DatabasesDataContext.Provider value={databasesData}>
       <div className='flex'>
         <div id='sidebar'>
-                    <div
+          {/* TODO:クリックしたときに色が付きません */}
+          <div
             onClick={() => handleCreateDatabaseBtn()}
             className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
             onMouseEnter={event => {
