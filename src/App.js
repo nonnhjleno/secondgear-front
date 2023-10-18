@@ -50,7 +50,16 @@ const App = () => {
         <div id='sidebar'>
           <div
             onClick={() => handleCreateDatabaseBtn()}
-            className={`p-2 ${isShowing === 'initial' ? 'bg-slate-100 ' : ''}`}
+            className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
+            onMouseEnter={event => {
+              if (isShowing === 'initial') {
+                event.target.classList.remove('bg-slate-200');
+                event.target.classList.add('bg-slate-300');
+              }
+              else {
+                event.target.classList.add('bg-slate-200');
+              }
+            }}
           >
             データベース作成
           </div>
