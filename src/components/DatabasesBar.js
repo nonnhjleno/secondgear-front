@@ -11,25 +11,25 @@ const DatabasesBar = ({ setCurrentSelectedDatabase, currentSelectedDatabase }) =
             <ul className='list-none'>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
-                        className={`p-2 ${currentSelectedDatabase === key ? 'bg-slate-100 ' : ''}`}
+                        className={`p-2 ${currentSelectedDatabase === key ? 'bg-slate-200 ' : ''}`}
                         key={uuidv4()}
                         onClick={() => setCurrentSelectedDatabase(key)}
                         onMouseEnter={event => {
                             if (currentSelectedDatabase === key) {
-                                event.target.classList.remove('bg-slate-100');
-                                event.target.classList.add('bg-slate-200');
+                                event.target.classList.remove('bg-slate-200');
+                                event.target.classList.add('bg-slate-300');
                             }
                             else{
-                                event.target.classList.add('bg-slate-100');
+                                event.target.classList.add('bg-slate-200');
                             }
                         }}
                         onMouseLeave={event => {
                             if (currentSelectedDatabase === key) {
-                                event.target.classList.remove('bg-slate-200');
-                                event.target.classList.add('bg-slate-100');
+                                event.target.classList.remove('bg-slate-300');
+                                event.target.classList.add('bg-slate-200');
                             }
                             else{
-                                event.target.classList.remove('bg-slate-100');
+                                event.target.classList.remove('bg-slate-200');
                             }
                         }}
                     >
