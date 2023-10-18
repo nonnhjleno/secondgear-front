@@ -48,7 +48,7 @@ const App = () => {
     <DatabasesDataContext.Provider value={databasesData}>
       <div className='flex'>
         <div id='sidebar'>
-          <div
+                    <div
             onClick={() => handleCreateDatabaseBtn()}
             className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
             onMouseEnter={event => {
@@ -58,6 +58,15 @@ const App = () => {
               }
               else {
                 event.target.classList.add('bg-slate-200');
+              }
+            }}
+            onMouseLeave={event => {
+              if (isShowing === 'initial') {
+                event.target.classList.remove('bg-slate-300');
+                event.target.classList.add('bg-slate-200');
+              }
+              else {
+                event.target.classList.remove('bg-slate-200');
               }
             }}
           >
@@ -74,7 +83,7 @@ const App = () => {
           )}
         </div>
       </div>
-    </DatabasesDataContext.Provider>
+    </DatabasesDataContext.Provider >
   );
 }
 
