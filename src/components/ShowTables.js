@@ -12,16 +12,21 @@ const ShowTables = ({ tables, currentSelectedDatabase, handdleSetIsShowing }) =>
     }
 
     return (
-        <div>
+        <div className=''>
             <h2 className=" text-2xl">{currentSelectedDatabase}</h2>
             <div
-            onClick={() => handdleSetIsShowing('createTable')}
+                onClick={() => handdleSetIsShowing('createTable')}
             >
                 テーブル作成
             </div>
             <ul>
-                {Object.values(tables).map(tableName => (
-                    <li key={uuidv4()}>{tableName}</li>
+                {Object.values(tables).map((tableName, index) => (
+                    <li
+                        key={uuidv4()}
+                        className={`py-1 w-3/4 ${index % 2 === 0 ? 'bg-slate-200' : ''}`}
+                    >
+                        {tableName}
+                    </li>
                 ))}
             </ul>
 
