@@ -88,7 +88,7 @@ const App = () => {
       </div>
       <div className='flex'>
         <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
-        <div>
+        <div id='main' className=' ml-10 w-10/12'>
           {(isShowing === 'initial') && (
             <CreateDatabase />
           )}
