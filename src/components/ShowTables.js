@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ShowTables = ({ tables, currentSelectedDatabase }) => {
     if (!tables || typeof tables !== 'object') {
-        return null;  // もしくは適当なエラーメッセージを返すなど
+        return null;
     }
     else if (Object.keys(tables).length === 0) {
         return (
@@ -15,7 +15,7 @@ const ShowTables = ({ tables, currentSelectedDatabase }) => {
         <div>
             <h2 className=" text-2xl">{currentSelectedDatabase}</h2>
             <ul>
-                {Object.values(tables).map((tableName, index) => (
+                {Object.values(tables).map(tableName => (
                     <li key={uuidv4()}>{tableName}</li>
                 ))}
             </ul>
