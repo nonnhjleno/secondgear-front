@@ -4,6 +4,9 @@ import DatabasesBar from './components/DatabasesBar';
 import axios from 'axios';
 import ShowTables from './components/ShowTables';
 import CreateDatabase from './components/CreateDatabase';
+import CreateTable from './components/CreateTable'
+
+//TODO 裏で動いてるコマンドを表示するできるかもしれない
 
 export const DatabasesDataContext = createContext();
 
@@ -39,48 +42,61 @@ const App = () => {
       })
   }, [currentSelectedDatabase, databasesData]);
 
-  const handleCreateDatabaseBtn = () => {
-    setIsShowing('initial');
+  const handdleSetIsShowing = status => {
+    console.log(`${status}を表示します`);
+    setIsShowing(status);
     setCurrentSelectedDatabase('__initial__');
   }
 
   return (
     <DatabasesDataContext.Provider value={databasesData}>
-      <div className='flex'>
-        <div id='sidebar'>
-          {/* TODO:クリックしたときに色が付きません */}
-          <div
-            onClick={() => handleCreateDatabaseBtn()}
-            className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
-            onMouseEnter={event => {
-              if (isShowing === 'initial') {
-                event.target.classList.remove('bg-slate-200');
-                event.target.classList.add('bg-slate-300');
-              }
-              else {
-                event.target.classList.add('bg-slate-200');
-              }
-            }}
-            onMouseLeave={event => {
-              if (isShowing === 'initial') {
-                event.target.classList.remove('bg-slate-300');
-                event.target.classList.add('bg-slate-200');
-              }
-              else {
-                event.target.classList.remove('bg-slate-200');
-              }
-            }}
-          >
-            データベース作成
-          </div>
-          <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
+      <div id="tabs" className='flex'>
+        <div
+          onClick={() => handdleSetIsShowing('initial')}
+          className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
+          onMouseEnter={event => {
+            if (isShowing === 'initial') {
+              event.target.classList.remove('bg-slate-200');
+              event.target.classList.add('bg-slate-300');
+            }
+            else {
+              event.target.classList.add('bg-slate-200');
+            }
+          }}
+          onMouseLeave={event => {
+            if (isShowing === 'initial') {
+              event.target.classList.remove('bg-slate-300');
+              event.target.classList.add('bg-slate-200');
+            }
+            else {
+              event.target.classList.remove('bg-slate-200');
+            }
+          }}
+        >
+          データベース作成
         </div>
+        <div
+          className='p-2'
+        >
+          {(isShowing === 'tables') && (
+            <p>テーブル表示画面</p>
+          )}
+          {(isShowing === 'createTable') && (
+            <p>テーブル作成画面</p>
+          )}
+        </div>
+      </div>
+      <div className='flex'>
+        <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
         <div>
           {(isShowing === 'initial') && (
             <CreateDatabase />
           )}
           {(isShowing === 'tables') && (
-            <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase} />
+            <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase} handdleSetIsShowing={handdleSetIsShowing} />
+          )}
+          {(isShowing === 'createTable') && (
+            <CreateTable />
           )}
         </div>
       </div>
