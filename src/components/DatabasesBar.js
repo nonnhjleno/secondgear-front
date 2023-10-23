@@ -7,7 +7,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase, currentSelectedDatabase }) =
     if (DatabasesData === undefined) return;
 
     return (
-        <div className='mt-10'>
+        <div>
             <ul className='list-none'>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
