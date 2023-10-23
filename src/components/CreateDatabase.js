@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react'
 
+// TODO: useFormを使って書き直す
+
 const CreateDatabase = () => {
     const handleSubmit = event => {
 
