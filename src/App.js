@@ -46,7 +46,6 @@ const App = () => {
   const handdleSetIsShowing = status => {
     console.log(`${status}を表示します`);
     setIsShowing(status);
-    setCurrentSelectedDatabase('__initial__');
   }
 
   return (
