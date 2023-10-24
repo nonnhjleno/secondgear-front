@@ -12,18 +12,17 @@ const ShowTables = ({ tables, handdleSetIsShowing }) => {
     }
     else if (Object.keys(tables).length === 0) {
         return (
-            <p>テーブルがありません。</p>
+            <>
+                <CreateTableButton handdleSetIsShowing={handdleSetIsShowing} />
+                <p>テーブルがありません。</p>
+            </>
         )
     }
 
     return (
         <div className=''>
             <h2 className=" text-2xl">{currentSelectedDatabase}</h2>
-            <div
-                onClick={() => handdleSetIsShowing('createTable')}
-            >
-                テーブル作成
-            </div>
+            <CreateTableButton handdleSetIsShowing={handdleSetIsShowing} />
             <ul>
                 {Object.values(tables).map((tableName, index) => (
                     <li
@@ -37,6 +36,16 @@ const ShowTables = ({ tables, handdleSetIsShowing }) => {
 
         </div>
     );
+}
+
+const CreateTableButton = ({ handdleSetIsShowing }) => {
+    return (
+        <div
+            onClick={() => handdleSetIsShowing('createTable')}
+        >
+            テーブル作成
+        </div>
+    )
 }
 
 export default ShowTables;
