@@ -1,7 +1,12 @@
 import React from 'react';
+import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { currentSelectedDatabaseContext } from '../App';
 
-const ShowTables = ({ tables, currentSelectedDatabase, handdleSetIsShowing }) => {
+const ShowTables = ({ tables, handdleSetIsShowing }) => {
+
+    const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
+
     if (!tables || typeof tables !== 'object') {
         return null;
     }

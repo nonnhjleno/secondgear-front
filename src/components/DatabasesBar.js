@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { DatabasesDataContext } from '../App';
+import { DatabasesDataContext, currentSelectedDatabaseContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 
-const DatabasesBar = ({ setCurrentSelectedDatabase, currentSelectedDatabase }) => {
+const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
+    const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
     const DatabasesData = useContext(DatabasesDataContext);
     if (DatabasesData === undefined) return;
 

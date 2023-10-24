@@ -9,6 +9,7 @@ import CreateTable from './components/CreateTable'
 //TODO 裏で動いてるコマンドを表示するできるかもしれない
 
 export const DatabasesDataContext = createContext();
+export const currentSelectedDatabaseContext = createContext();
 
 const App = () => {
   const [databasesData, setDatabasesData] = useState([]);
@@ -86,20 +87,23 @@ const App = () => {
           )}
         </div>
       </div>
-      <div className='flex'>
-        <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} currentSelectedDatabase={currentSelectedDatabase} />
-        <div id='main' className=' ml-10 w-10/12'>
-          {(isShowing === 'initial') && (
-            <CreateDatabase />
-          )}
-          {(isShowing === 'tables') && (
-            <ShowTables tables={tables} currentSelectedDatabase={currentSelectedDatabase} handdleSetIsShowing={handdleSetIsShowing} />
-          )}
-          {(isShowing === 'createTable') && (
-            <CreateTable />
-          )}
+      <currentSelectedDatabaseContext.Provider value={currentSelectedDatabase}>
+        <div className='flex'>
+          <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase}/>
+          <div id='main' className=' ml-10 w-10/12'>
+            {(isShowing === 'initial') && (
+              <CreateDatabase />
+            )}
+            {(isShowing === 'tables') && (
+              <ShowTables tables={tables} handdleSetIsShowing={handdleSetIsShowing} />
+            )}
+            {(isShowing === 'createTable') && (
+              <CreateTable />
+            )}
+          </div>
         </div>
-      </div>
+
+      </currentSelectedDatabaseContext.Provider>
     </DatabasesDataContext.Provider >
   );
 }
