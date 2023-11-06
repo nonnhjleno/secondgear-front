@@ -2,15 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App.js';
-
-// const CreateTableFirst = () => {
-//   return (
-//     <div>
-//       Page 1
-//     </div>
-//   )
-// }
-
 const CreateTable = () => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const [page, setPage] = useState(1);
@@ -40,7 +31,7 @@ const CreateTable = () => {
 
   if (page === 1) {
 
-    console.log({...register('columnNum')});
+    console.log({ ...register('columnNum') });
     return (
       <form onSubmit={handleSubmit(handleOnSubmit, handleOnError)}>
         <h1>{currentSelectedDatabase}</h1>
@@ -74,9 +65,13 @@ const CreateTable = () => {
   } else if (page === 2) {
     const columnComponents = [];
 
+    console.log(data.columnNum);
+
     for (let i = 0; i < data.columnNum; i++) {
       columnComponents.push(<Column key={uuidv4()} index={i} />);
     }
+
+    
 
     return (
       <div>
@@ -85,12 +80,12 @@ const CreateTable = () => {
           <button onClick={() => {
             const newColumnNum = data.columnNum + 1;
             setData({ name: data.name, columnNum: newColumnNum });
-            setValue('columnNum',data.columnNum);
+            setValue('columnNum', data.columnNum);
           }}>カラム追加</button>
           <button onClick={() => {
             const newColumnNum = data.columnNum > 1 ? data.columnNum - 1 : data.columnNum;
             setData({ name: data.name, columnNum: newColumnNum });
-            setValue('columnNum',data.columnNum);
+            setValue('columnNum', data.columnNum);
           }}>カラム削除</button>
         </div>
         <p>テーブル名: {data.name}</p>
