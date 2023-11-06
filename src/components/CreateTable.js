@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App.js';
+
 const CreateTable = () => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const [page, setPage] = useState(1);
@@ -10,7 +11,6 @@ const CreateTable = () => {
   const {
     register,
     handleSubmit,
-    // setValue,
     formState: { errors },
     setValue
   } = useForm({
@@ -58,20 +58,11 @@ const CreateTable = () => {
           />
         </div>
         <button type="submit" className="border-2 border-black rounded">
-          送信
+          決定
         </button>
       </form>
     );
   } else if (page === 2) {
-    const columnComponents = [];
-
-    console.log(data.columnNum);
-
-    for (let i = 0; i < data.columnNum; i++) {
-      columnComponents.push(<Column key={uuidv4()} index={i} />);
-    }
-
-    
 
     return (
       <div>
@@ -90,15 +81,69 @@ const CreateTable = () => {
         </div>
         <p>テーブル名: {data.name}</p>
         <p>カラムの個数: {data.columnNum}</p>
-        <form className="columns">{columnComponents}</form>
+        {/* <form className="columns">{columnComponents}</form> */}
+        <ColumnForm count={data.columnNum} />
       </div>
     );
   }
 };
 
-const Column = ({ index }) => {
+const ColumnForm = ({ count }) => {
+  let initialValue = [];
+
+  for (let i = 0; i < count; i++) {
+    initialValue = [...initialValue, { name: "", age: "" }];
+  }
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      people: [...initialValue]
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "people",
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const addForm = () => {
+    append({ name: "", age: "" });
+  };
+
+  const deleteForm = (index) => {
+    remove(index);
+  };
+
   return (
-    <p>Column {index + 1}</p>
+    <div className="border-black">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <button className="border-2" type="button" onClick={addForm}>
+          追加
+        </button>
+        {fields.map((item, index) => (
+          <div key={uuidv4()}>
+            <Controller
+              name={`people[${index}].name`}
+              control={control}
+              render={({ field }) => <input {...field} placeholder="名前" className="border-2 mx-2" />}
+            />
+            <Controller
+              name={`people[${index}].age`}
+              control={control}
+              render={({ field }) => <input {...field} placeholder="年齢" className="border-2 mx-2" />}
+            />
+            <button type="button" onClick={() => deleteForm(index)}>
+              削除
+            </button>
+          </div>
+        ))}
+        <button type="submit">送信</button>
+      </form>
+    </div>
   );
 }
 
