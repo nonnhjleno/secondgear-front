@@ -31,7 +31,6 @@ const CreateTable = () => {
 
   if (page === 1) {
 
-    console.log({ ...register('columnNum') });
     return (
       <form onSubmit={handleSubmit(handleOnSubmit, handleOnError)}>
         <h1>{currentSelectedDatabase}</h1>
@@ -64,31 +63,23 @@ const CreateTable = () => {
     );
   } else if (page === 2) {
 
+    const changeNum = (num) => {
+      setData({ name: data.name, columnNum: num });
+      setValue('columnNum', num);
+    };
+
     return (
-      <div>
-        <button onClick={() => setPage(1)}>Page 1に戻る</button>
-        <div id="buttonsArea" className='flex'>
-          <button onClick={() => {
-            const newColumnNum = data.columnNum + 1;
-            setData({ name: data.name, columnNum: newColumnNum });
-            setValue('columnNum', data.columnNum);
-          }}>カラム追加</button>
-          <button onClick={() => {
-            const newColumnNum = data.columnNum > 1 ? data.columnNum - 1 : data.columnNum;
-            setData({ name: data.name, columnNum: newColumnNum });
-            setValue('columnNum', data.columnNum);
-          }}>カラム削除</button>
-        </div>
-        <p>テーブル名: {data.name}</p>
-        <p>カラムの個数: {data.columnNum}</p>
-        {/* <form className="columns">{columnComponents}</form> */}
-        <ColumnForm count={data.columnNum} />
-      </div>
+      <>
+        <MiddleForm setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
+      </>
     );
+
   }
 };
 
-const ColumnForm = ({ count }) => {
+const MiddleForm = ({ setPage, columnNum, changeNum }) => {
+  const count = columnNum;
+
   let initialValue = [];
 
   for (let i = 0; i < count; i++) {
@@ -106,20 +97,28 @@ const ColumnForm = ({ count }) => {
     name: "people",
   });
 
+  const [formCount, setFormCount] = useState(fields.length); // フォームの数を保存する状態変数
+
   const onSubmit = (data) => {
     console.log(data);
   };
 
   const addForm = () => {
     append({ name: "", age: "" });
+    setFormCount(formCount + 1); // フォームを追加したらフォームの数を更新
   };
 
   const deleteForm = (index) => {
     remove(index);
+    setFormCount(formCount - 1); // フォームを削除したらフォームの数を更新
   };
 
   return (
     <div className="border-black">
+      <button onClick={() => {
+        setPage(1);
+        changeNum(formCount);
+      }}>Page 1に戻る</button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <button className="border-2" type="button" onClick={addForm}>
           追加
@@ -143,8 +142,10 @@ const ColumnForm = ({ count }) => {
         ))}
         <button type="submit">送信</button>
       </form>
+      <p>フォームの数: {formCount}</p>
     </div>
   );
+
 }
 
 export default CreateTable;
