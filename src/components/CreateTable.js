@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App.js';
+import axios from 'axios';
 
 const CreateTable = () => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
@@ -70,14 +71,15 @@ const CreateTable = () => {
 
     return (
       <>
-        <MiddleForm setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
+        <MiddleForm database={currentSelectedDatabase} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
       </>
     );
 
   }
 };
 
-const MiddleForm = ({ setPage, columnNum, changeNum }) => {
+const MiddleForm = ({ setPage, columnNum, changeNum, database }) => {
+  const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const count = columnNum;
 
   let initialValue = [];
@@ -99,8 +101,25 @@ const MiddleForm = ({ setPage, columnNum, changeNum }) => {
 
   const [formCount, setFormCount] = useState(fields.length); // フォームの数を保存する状態変数
 
-  const onSubmit = (data) => {
+  const onSubmit = formData => {
+    let data = {};
+
+    for (let i = 0; i < formData.people.length; i++) {
+      const element = formData.people[i];
+      console.log(i);
+      data[i] = { "name": element.name, "age": element.age };
+    }
+
     console.log(data);
+    // console.log(formData.people[0]);
+
+    // const data = Object.keys(formData.people);
+
+    // console.log(data);
+    axios.post(`http://localhost:3000/createTable`, {data,currentSelectedDatabase}, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+      .then(response => {
+        console.log(response);
+      });
   };
 
   const addForm = () => {
