@@ -71,49 +71,49 @@ const CreateTable = () => {
 
     return (
       <>
-        <MiddleForm database={currentSelectedDatabase} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
+        <MiddleForm tableName={data.name} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
       </>
     );
 
   }
 };
 
-const MiddleForm = ({ setPage, columnNum, changeNum, database }) => {
+const MiddleForm = ({ setPage, columnNum, changeNum, tableName }) => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const count = columnNum;
 
   let initialValue = [];
 
   for (let i = 0; i < count; i++) {
-    initialValue = [...initialValue, { name: "", age: "" }];
+    initialValue = [...initialValue, { column_name: "", column_type: "" }];
   }
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      people: [...initialValue]
+      table: [...initialValue]
     }
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "people",
+    name: "table",
   });
 
   const [formCount, setFormCount] = useState(fields.length); // フォームの数を保存する状態変数
 
   const onSubmit = formData => {
-    let data = {};
+    console.log(tableName);
+    let data = {tableName};
 
-    for (let i = 0; i < formData.people.length; i++) {
-      const element = formData.people[i];
-      console.log(i);
-      data[i] = { "name": element.name, "age": element.age };
+    for (let i = 0; i < formData.table.length; i++) {
+      const element = formData.table[i];
+      data[i] = { "column_name": element.column_name, "column_type": element.column_type };
     }
 
     console.log(data);
-    // console.log(formData.people[0]);
+    // console.log(formData.table[0]);
 
-    // const data = Object.keys(formData.people);
+    // const data = Object.keys(formData.table);
 
     // console.log(data);
     axios.post(`http://localhost:3000/createTable`, {data,currentSelectedDatabase}, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
@@ -123,7 +123,7 @@ const MiddleForm = ({ setPage, columnNum, changeNum, database }) => {
   };
 
   const addForm = () => {
-    append({ name: "", age: "" });
+    append({ column_name: "", column_type: "" });
     setFormCount(formCount + 1); // フォームを追加したらフォームの数を更新
   };
 
@@ -145,14 +145,14 @@ const MiddleForm = ({ setPage, columnNum, changeNum, database }) => {
         {fields.map((item, index) => (
           <div key={uuidv4()}>
             <Controller
-              name={`people[${index}].name`}
+              name={`table[${index}].column_name`}
               control={control}
-              render={({ field }) => <input {...field} placeholder="名前" className="border-2 mx-2" />}
+              render={({ field }) => <input {...field} placeholder="column_name" className="border-2 mx-2" />}
             />
             <Controller
-              name={`people[${index}].age`}
+              name={`table[${index}].column_type`}
               control={control}
-              render={({ field }) => <input {...field} placeholder="年齢" className="border-2 mx-2" />}
+              render={({ field }) => <input {...field} placeholder="column_type" className="border-2 mx-2" />}
             />
             <button type="button" onClick={() => deleteForm(index)}>
               削除
