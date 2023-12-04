@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App.js';
 import axios from 'axios';
 
-const CreateTable = () => {
+const CreateTable = ({ setCreateTableFlag }) => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const [page, setPage] = useState(1);
   const [data, setData] = useState({ name: '', columnNum: 3 });
@@ -71,14 +71,14 @@ const CreateTable = () => {
 
     return (
       <>
-        <MiddleForm tableName={data.name} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} />
+        <MiddleForm tableName={data.name} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} setCreateTableFlag={setCreateTableFlag} />
       </>
     );
 
   }
 };
 
-const MiddleForm = ({ setPage, columnNum, changeNum, tableName }) => {
+const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFlag }) => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const count = columnNum;
 
@@ -103,7 +103,7 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName }) => {
 
   const onSubmit = formData => {
     console.log(tableName);
-    let data = {tableName};
+    let data = { tableName };
 
     for (let i = 0; i < formData.table.length; i++) {
       const element = formData.table[i];
@@ -116,9 +116,10 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName }) => {
     // const data = Object.keys(formData.table);
 
     // console.log(data);
-    axios.post(`http://localhost:3000/createTable`, {data,currentSelectedDatabase}, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+    axios.post(`http://localhost:3000/createTable`, { data, currentSelectedDatabase }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
       .then(response => {
         console.log(response);
+        setCreateTableFlag(true);
       });
   };
 

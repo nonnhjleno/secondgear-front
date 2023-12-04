@@ -7,6 +7,7 @@ import CreateDatabase from './components/CreateDatabase';
 import CreateTable from './components/CreateTable'
 
 //TODO 裏で動いてるコマンドを表示するできるかもしれない
+//TODO テーブル作成画面からテーブル表示画面に戻るアルゴリズム作成
 
 export const DatabasesDataContext = createContext();
 export const currentSelectedDatabaseContext = createContext();
@@ -17,6 +18,7 @@ const App = () => {
   const [currentSelectedDatabase, setCurrentSelectedDatabase] = useState();
 
   const [isShowing, setIsShowing] = useState('initial');
+  const [createTableFlag, setCreateTableFlag] = useState(false);
 
   useEffect(() => {
     fetchDatabases()
@@ -40,8 +42,9 @@ const App = () => {
       })
       .catch(error => {
         console.error(error);
-      })
-  }, [currentSelectedDatabase, databasesData]);
+      });
+      setCreateTableFlag(false);
+  }, [currentSelectedDatabase, databasesData, createTableFlag]);
 
   const handdleSetIsShowing = status => {
     console.log(`${status}を表示します`);
@@ -97,7 +100,7 @@ const App = () => {
               <ShowTables tables={tables} handdleSetIsShowing={handdleSetIsShowing} />
             )}
             {(isShowing === 'createTable') && (
-              <CreateTable />
+              <CreateTable setCreateTableFlag={setCreateTableFlag} />
             )}
           </div>
         </div>
