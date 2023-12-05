@@ -43,7 +43,7 @@ const App = () => {
       .catch(error => {
         console.error(error);
       });
-      setCreateTableFlag(false);
+    setCreateTableFlag(false);
   }, [currentSelectedDatabase, databasesData, createTableFlag]);
 
   const handdleSetIsShowing = status => {
@@ -91,7 +91,7 @@ const App = () => {
       </div>
       <currentSelectedDatabaseContext.Provider value={currentSelectedDatabase}>
         <div className='flex'>
-          <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase}/>
+          <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} />
           <div id='main' className=' ml-10 w-10/12'>
             {(isShowing === 'initial') && (
               <CreateDatabase />
@@ -114,8 +114,10 @@ export default App;
 
 const fetchDatabases = async () => {
   try {
-    const response = await axios.get('http://localhost:3000');
-    return response.data;
+
+    const response = await fetch('http://localhost:3000');
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('APIへのリクエストが失敗しました:', error);
   }
