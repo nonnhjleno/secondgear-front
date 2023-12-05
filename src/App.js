@@ -129,8 +129,9 @@ const fetchTables = async (databaseName) => {
   }
 
   try {
-    const response = await axios.get('http://localhost:3000/showTables/' + databaseName);
-    return response.data;
+    const response = await fetch('http://localhost:3000/showTables/' + databaseName);
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('APIへのリクエストが失敗しました:', error);
   }
