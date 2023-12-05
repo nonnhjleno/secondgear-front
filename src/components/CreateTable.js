@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App.js';
-import axios from 'axios';
 
 const CreateTable = ({ setCreateTableFlag }) => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
