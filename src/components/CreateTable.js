@@ -103,24 +103,29 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
 
   const onSubmit = formData => {
     console.log(tableName);
-    let data = { tableName };
+    let data = {};
 
     for (let i = 0; i < formData.table.length; i++) {
       const element = formData.table[i];
       data[i] = { "column_name": element.column_name, "column_type": element.column_type };
     }
 
-    console.log(data);
-    // console.log(formData.table[0]);
-
-    // const data = Object.keys(formData.table);
-
-    // console.log(data);
-    axios.post(`http://localhost:3000/createTable`, { data, currentSelectedDatabase }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-      .then(response => {
-        console.log(response);
+    fetch('http://localhost:3000/createTable', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: JSON.stringify({ data, tableName, currentSelectedDatabase })
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
         setCreateTableFlag(true);
+      })
+      .catch(error => {
+        console.error("APIでエラーが発生しました", error);
       });
+
   };
 
   const addForm = () => {
