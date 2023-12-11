@@ -23,7 +23,6 @@ const CreateTable = ({ setCreateTableFlag }) => {
   });
 
   const handleOnSubmit = formData => {
-    // console.log(formData.name, formData.columnNum);
     setData(formData);
     setPage(2);
   };
@@ -111,11 +110,7 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
     }
 
     console.log(data);
-    // console.log(formData.table[0]);
 
-    // const data = Object.keys(formData.table);
-
-    // console.log(data);
     axios.post(`http://localhost:3000/createTable`, { data, currentSelectedDatabase }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
       .then(response => {
         console.log(response);
