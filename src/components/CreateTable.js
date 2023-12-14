@@ -102,16 +102,16 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
 
   const onSubmit = formData => {
     console.log(tableName);
-    let data = { tableName };
+    let data = {};
 
     for (let i = 0; i < formData.table.length; i++) {
       const element = formData.table[i];
       data[i] = { "column_name": element.column_name, "column_type": element.column_type };
     }
 
-    console.log(data);
+    const body = JSON.stringify({ data, tableName, currentSelectedDatabase });
 
-    axios.post(`http://localhost:3000/createTable`, { data, currentSelectedDatabase }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+    axios.post(`http://localhost:3000/createTable`, body, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
       .then(response => {
         console.log(response);
         setCreateTableFlag(true);
