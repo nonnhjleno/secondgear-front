@@ -25,6 +25,7 @@ const CreateDatabase = () => {
             );
 
             console.log(response);
+            window.location.reload();
         } catch (error) {
             console.error("APIでエラーが発生しました", error);
         }
