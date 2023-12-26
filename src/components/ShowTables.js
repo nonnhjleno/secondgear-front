@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { currentSelectedDatabaseContext } from '../App';
 
-const ShowTables = ({ tables, handdleSetIsShowing }) => {
+const ShowTables = ({ tables, handleSetIsShowing }) => {
 
     const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
 
@@ -13,7 +13,7 @@ const ShowTables = ({ tables, handdleSetIsShowing }) => {
     else if (Object.keys(tables).length === 0) {
         return (
             <>
-                <CreateTableButton handdleSetIsShowing={handdleSetIsShowing} />
+                <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
                 <p>テーブルがありません。</p>
             </>
         )
@@ -22,7 +22,7 @@ const ShowTables = ({ tables, handdleSetIsShowing }) => {
     return (
         <div className=''>
             <h2 className=" text-2xl">{currentSelectedDatabase}</h2>
-            <CreateTableButton handdleSetIsShowing={handdleSetIsShowing} />
+            <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
             <ul>
                 {Object.values(tables).map((tableName, index) => (
                     <li
@@ -38,10 +38,10 @@ const ShowTables = ({ tables, handdleSetIsShowing }) => {
     );
 }
 
-const CreateTableButton = ({ handdleSetIsShowing }) => {
+const CreateTableButton = ({ handleSetIsShowing }) => {
     return (
         <div
-            onClick={() => handdleSetIsShowing('createTable')}
+            onClick={() => handleSetIsShowing('createTable')}
         >
             テーブル作成
         </div>

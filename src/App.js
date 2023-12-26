@@ -46,7 +46,7 @@ const App = () => {
     setCreateTableFlag(false);
   }, [currentSelectedDatabase, databasesData, createTableFlag]);
 
-  const handdleSetIsShowing = status => {
+  const handleSetIsShowing = status => {
     console.log(`${status}を表示します`);
     setIsShowing(status);
   }
@@ -57,7 +57,7 @@ const App = () => {
         <div className='flex'>
           <div id='sidebar' className='' style={{ width: '15%' }}>
             <div
-              onClick={() => handdleSetIsShowing('initial')}
+              onClick={() => handleSetIsShowing('initial')}
               className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
             // onMouseEnter={event => {
             //   if (isShowing === 'initial') {
@@ -100,7 +100,7 @@ const App = () => {
                 <CreateDatabase />
               )}
               {(isShowing === 'tables') && (
-                <ShowTables tables={tables} handdleSetIsShowing={handdleSetIsShowing} />
+                <ShowTables tables={tables} handleSetIsShowing={handleSetIsShowing} />
               )}
               {(isShowing === 'createTable') && (
                 <CreateTable setCreateTableFlag={setCreateTableFlag} />
