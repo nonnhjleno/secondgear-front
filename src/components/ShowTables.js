@@ -27,7 +27,7 @@ const ShowTables = ({ tables, handleSetIsShowing }) => {
                 {Object.values(tables).map((tableName, index) => (
                     <li
                         key={uuidv4()}
-                        className={`py-1 w-3/4 ${index % 2 === 0 ? 'bg-slate-200' : ''}`}
+                        className={`py-1 ${index % 2 === 0 ? 'bg-slate-200' : ''}`}
                     >
                         {tableName}
                     </li>

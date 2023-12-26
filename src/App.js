@@ -85,9 +85,7 @@ const App = () => {
           <div id='outerOfMain' className=''>
             <div id="main">
               <div id="tabs" className='flex'>
-                <div
-                  className='p-2'
-                >
+                <div>
                   {(isShowing === 'tables') && (
                     <p>テーブル表示画面</p>
                   )}
