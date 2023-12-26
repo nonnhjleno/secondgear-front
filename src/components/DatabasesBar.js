@@ -33,6 +33,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
                                 event.target.classList.remove('bg-slate-200');
                             }
                         }}
+                        style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                     >
                         {key}
                     </li>

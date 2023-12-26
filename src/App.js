@@ -43,7 +43,7 @@ const App = () => {
       .catch(error => {
         console.error(error);
       });
-      setCreateTableFlag(false);
+    setCreateTableFlag(false);
   }, [currentSelectedDatabase, databasesData, createTableFlag]);
 
   const handdleSetIsShowing = status => {
@@ -53,58 +53,62 @@ const App = () => {
 
   return (
     <DatabasesDataContext.Provider value={databasesData}>
-      <div id="tabs" className='flex'>
-        <div
-          onClick={() => handdleSetIsShowing('initial')}
-          className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
-          onMouseEnter={event => {
-            if (isShowing === 'initial') {
-              event.target.classList.remove('bg-slate-200');
-              event.target.classList.add('bg-slate-300');
-            }
-            else {
-              event.target.classList.add('bg-slate-200');
-            }
-          }}
-          onMouseLeave={event => {
-            if (isShowing === 'initial') {
-              event.target.classList.remove('bg-slate-300');
-              event.target.classList.add('bg-slate-200');
-            }
-            else {
-              event.target.classList.remove('bg-slate-200');
-            }
-          }}
-        >
-          データベース作成
-        </div>
-        <div
-          className='p-2'
-        >
-          {(isShowing === 'tables') && (
-            <p>テーブル表示画面</p>
-          )}
-          {(isShowing === 'createTable') && (
-            <p>テーブル作成画面</p>
-          )}
-        </div>
-      </div>
       <currentSelectedDatabaseContext.Provider value={currentSelectedDatabase}>
         <div className='flex'>
-          <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase}/>
-          <div id='main' className=' ml-10 w-10/12'>
-            {(isShowing === 'initial') && (
-              <CreateDatabase />
-            )}
-            {(isShowing === 'tables') && (
-              <ShowTables tables={tables} handdleSetIsShowing={handdleSetIsShowing} />
-            )}
-            {(isShowing === 'createTable') && (
-              <CreateTable setCreateTableFlag={setCreateTableFlag} />
-            )}
+          <div id='sidebar' className='' style={{ width: '15%' }}>
+            <div
+              onClick={() => handdleSetIsShowing('initial')}
+              className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
+            // onMouseEnter={event => {
+            //   if (isShowing === 'initial') {
+            //     event.target.classList.remove('bg-slate-200');
+            //     event.target.classList.add('bg-slate-300');
+            //   }
+            //   else {
+            //     event.target.classList.add('bg-slate-200');
+            //   }
+            // }}
+            // onMouseLeave={event => {
+            //   if (isShowing === 'initial') {
+            //     event.target.classList.remove('bg-slate-300');
+            //     event.target.classList.add('bg-slate-200');
+            //   }
+            //   else {
+            //     event.target.classList.remove('bg-slate-200');
+            //   }
+            // }}
+            >
+              データベース作成
+            </div>
+            <DatabasesBar setCurrentSelectedDatabase={setCurrentSelectedDatabase} />
+          </div>
+          <div id='outerOfMain' className=''>
+            <div id="main">
+              <div id="tabs" className='flex'>
+                <div
+                  className='p-2'
+                >
+                  {(isShowing === 'tables') && (
+                    <p>テーブル表示画面</p>
+                  )}
+                  {(isShowing === 'createTable') && (
+                    <p>テーブル作成画面</p>
+                  )}
+                </div>
+              </div>
+              {(isShowing === 'initial') && (
+                <CreateDatabase />
+              )}
+              {(isShowing === 'tables') && (
+                <ShowTables tables={tables} handdleSetIsShowing={handdleSetIsShowing} />
+              )}
+              {(isShowing === 'createTable') && (
+                <CreateTable setCreateTableFlag={setCreateTableFlag} />
+              )}
+
+            </div>
           </div>
         </div>
-
       </currentSelectedDatabaseContext.Provider>
     </DatabasesDataContext.Provider >
   );
