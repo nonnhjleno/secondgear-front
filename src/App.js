@@ -58,7 +58,7 @@ const App = () => {
           <div id='sidebar' className='' style={{ width: '15%' }}>
             <div
               onClick={() => handleSetIsShowing('initial')}
-              className={`p-2 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
+              className={` py-3 px-5 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
             // onMouseEnter={event => {
             //   if (isShowing === 'initial') {
             //     event.target.classList.remove('bg-slate-200');

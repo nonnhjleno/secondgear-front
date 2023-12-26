@@ -12,7 +12,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
             <ul className='list-none'>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
-                        className={`p-2 ${currentSelectedDatabase === key ? 'bg-slate-200 ' : ''}`}
+                        className={` py-3 px-5 ${currentSelectedDatabase === key ? 'bg-slate-200 ' : ''}`}
                         key={uuidv4()}
                         onClick={() => setCurrentSelectedDatabase(key)}
                         onMouseEnter={event => {
