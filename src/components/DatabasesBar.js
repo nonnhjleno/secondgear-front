@@ -8,8 +8,8 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
     if (DatabasesData === undefined) return;
 
     return (
-        <div className='overflow-y-scroll ' id='databasesBar'>
-            <ul className='list-none'>
+        <div id='databasesBar' className='flex-grow overflow-y-scroll max-h-90vh'>
+            <ul className=''>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
                         className={` py-3 px-5 ${currentSelectedDatabase === key ? 'bg-slate-200 ' : ''}`}
