@@ -96,16 +96,18 @@ const App = () => {
                   </p>
                 </div>
               </div>
-              {(isShowing === 'initial') && (
-                <CreateDatabase />
-              )}
-              {(isShowing === 'tables') && (
-                <ShowTables tables={tables} handleSetIsShowing={handleSetIsShowing} />
-              )}
-              {(isShowing === 'createTable') && (
-                <CreateTable setCreateTableFlag={setCreateTableFlag} />
-              )}
-
+                {(isShowing === 'initial') && (
+                  <CreateDatabase />
+                )}
+                {(isShowing === 'tables') && (
+                  <ShowTables tables={tables} handleSetIsShowing={handleSetIsShowing} />
+                )}
+                {(isShowing === 'createTable') && (
+                  <div>
+                    <button onClick={() => setIsShowing('tables')}><p className=' text-lg'>←</p></button>
+                    <CreateTable setCreateTableFlag={setCreateTableFlag} />
+                  </div>
+                )}
             </div>
           </div>
         </div>
