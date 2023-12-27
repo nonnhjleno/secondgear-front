@@ -43,7 +43,7 @@ const CreateDatabase = () => {
                 className="border-2 border-black rounded"
             />
             {errors.name && <p className="text-red-600">{errors.name.message}</p>}
-            <button type="submit" className="border-2 border-black rounded">
+            <button type="submit" className="border-2 border-black rounded my-5">
                 決定
             </button>
         </form>
