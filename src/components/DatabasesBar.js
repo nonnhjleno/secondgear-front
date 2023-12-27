@@ -8,7 +8,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
     if (DatabasesData === undefined) return;
 
     return (
-        <div className='' id='databasesBar'>
+        <div className='overflow-y-scroll ' id='databasesBar' style={{hight:ulHight}}>
             <ul className='list-none'>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
@@ -20,7 +20,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
                                 event.target.classList.remove('bg-slate-200');
                                 event.target.classList.add('bg-slate-300');
                             }
-                            else{
+                            else {
                                 event.target.classList.add('bg-slate-200');
                             }
                         }}
@@ -29,7 +29,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
                                 event.target.classList.remove('bg-slate-300');
                                 event.target.classList.add('bg-slate-200');
                             }
-                            else{
+                            else {
                                 event.target.classList.remove('bg-slate-200');
                             }
                         }}

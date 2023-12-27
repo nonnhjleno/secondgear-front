@@ -55,7 +55,7 @@ const App = () => {
     <DatabasesDataContext.Provider value={databasesData}>
       <currentSelectedDatabaseContext.Provider value={currentSelectedDatabase}>
         <div className='flex'>
-          <div id='sidebar' className='' style={{ width: '15%' }}>
+          <div id='sidebar' className=' h-1/6' style={{ width: '15%' }}>
             <div
               onClick={() => handleSetIsShowing('initial')}
               className={` py-3 px-5 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
