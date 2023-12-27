@@ -55,7 +55,7 @@ const App = () => {
     <DatabasesDataContext.Provider value={databasesData}>
       <currentSelectedDatabaseContext.Provider value={currentSelectedDatabase}>
         <div className='flex'>
-          <div id='sidebar' className=' h-1/6' style={{ width: '15%' }}>
+          <div id='sidebar' className='flex flex-col'>
             <div
               onClick={() => handleSetIsShowing('initial')}
               className={` py-3 px-5 ${isShowing === 'initial' ? 'bg-slate-200 ' : ''}`}
@@ -84,14 +84,16 @@ const App = () => {
           </div>
           <div id='outerOfMain' className=''>
             <div id="main">
-              <div id="tabs" className='flex'>
+              <div id="tabs">
                 <div>
-                  {(isShowing === 'tables') && (
-                    <p>テーブル表示画面</p>
-                  )}
-                  {(isShowing === 'createTable') && (
-                    <p>テーブル作成画面</p>
-                  )}
+                  <p className={`${isShowing === 'initial' ? 'hidden ' : 'py-3 px-5 mb-5 bg-slate-200'} `} style={{ width: "15%" }}>
+                    {(isShowing === 'tables') && (
+                      "テーブル表示画面"
+                    )}
+                    {(isShowing === 'createTable') && (
+                      "テーブル作成画面"
+                    )}
+                  </p>
                 </div>
               </div>
               {(isShowing === 'initial') && (
