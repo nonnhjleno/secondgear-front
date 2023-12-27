@@ -12,16 +12,17 @@ const ShowTables = ({ tables, handleSetIsShowing }) => {
     }
     else if (Object.keys(tables).length === 0) {
         return (
-            <>
+            <div>
+                <h2 className=" text-2xl">テーブル名 : {currentSelectedDatabase}</h2>
                 <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
                 <p>テーブルがありません。</p>
-            </>
+            </div>
         )
     }
 
     return (
-        <div className=''>
-            <h2 className=" text-2xl">{currentSelectedDatabase}</h2>
+        <div>
+            <h2 className=" text-2xl">テーブル名 : {currentSelectedDatabase}</h2>
             <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
             <ul>
                 {Object.values(tables).map((tableName, index) => (
