@@ -8,7 +8,7 @@ const DatabasesBar = ({ setCurrentSelectedDatabase }) => {
     if (DatabasesData === undefined) return;
 
     return (
-        <div className='overflow-y-scroll ' id='databasesBar' style={{hight:ulHight}}>
+        <div className='overflow-y-scroll ' id='databasesBar'>
             <ul className='list-none'>
                 {Object.keys(DatabasesData).map((key) => (
                     <li
