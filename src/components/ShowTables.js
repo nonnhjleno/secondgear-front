@@ -1,19 +1,13 @@
 import React from 'react';
-import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { currentSelectedDatabaseContext } from '../App';
 
 const ShowTables = ({ tables, handleSetIsShowing }) => {
-
-    const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
-
     if (!tables || typeof tables !== 'object') {
         return null;
     }
     else if (Object.keys(tables).length === 0) {
         return (
             <div>
-                <h2 className=" text-2xl">テーブル名 : {currentSelectedDatabase}</h2>
                 <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
                 <p>テーブルがありません。</p>
             </div>
@@ -22,7 +16,6 @@ const ShowTables = ({ tables, handleSetIsShowing }) => {
 
     return (
         <div>
-            <h2 className=" text-2xl">テーブル名 : {currentSelectedDatabase}</h2>
             <CreateTableButton handleSetIsShowing={handleSetIsShowing} />
             <ul>
                 {Object.values(tables).map((tableName, index) => (

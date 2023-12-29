@@ -86,28 +86,23 @@ const App = () => {
             <div id="main">
               <div id="tabs">
                 <div>
-                  <p className={`${isShowing === 'initial' ? 'hidden ' : 'py-3 px-5 mb-5 bg-slate-200'} `} style={{ width: "15%" }}>
-                    {(isShowing === 'tables') && (
-                      "テーブル表示画面"
-                    )}
-                    {(isShowing === 'createTable') && (
-                      "テーブル作成画面"
-                    )}
+                  <p className={`${isShowing === 'initial' ? 'hidden ' : 'py-3 px-5 mb-5 bg-slate-200'} `} style={{ width: "15%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {currentSelectedDatabase}
                   </p>
                 </div>
               </div>
-                {(isShowing === 'initial') && (
-                  <CreateDatabase />
-                )}
-                {(isShowing === 'tables') && (
-                  <ShowTables tables={tables} handleSetIsShowing={handleSetIsShowing} />
-                )}
-                {(isShowing === 'createTable') && (
-                  <div>
-                    <button onClick={() => setIsShowing('tables')}><p className=' text-lg'>←</p></button>
-                    <CreateTable setCreateTableFlag={setCreateTableFlag} />
-                  </div>
-                )}
+              {(isShowing === 'initial') && (
+                <CreateDatabase />
+              )}
+              {(isShowing === 'tables') && (
+                <ShowTables tables={tables} handleSetIsShowing={handleSetIsShowing} />
+              )}
+              {(isShowing === 'createTable') && (
+                <div>
+                  <button onClick={() => setIsShowing('tables')}><p className=' text-lg'>←</p></button>
+                  <CreateTable setCreateTableFlag={setCreateTableFlag} />
+                </div>
+              )}
             </div>
           </div>
         </div>

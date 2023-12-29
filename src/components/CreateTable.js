@@ -5,7 +5,6 @@ import { currentSelectedDatabaseContext } from '../App.js';
 import axios from 'axios';
 
 const CreateTable = ({ setCreateTableFlag }) => {
-  const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
   const [page, setPage] = useState(1);
   const [data, setData] = useState({ name: '', columnNum: 3 });
 
@@ -33,7 +32,6 @@ const CreateTable = ({ setCreateTableFlag }) => {
 
     return (
       <form onSubmit={handleSubmit(handleOnSubmit, handleOnError)}>
-        <h1>{currentSelectedDatabase}</h1>
         <div>
           <label htmlFor="name">テーブル名: </label>
           <input
