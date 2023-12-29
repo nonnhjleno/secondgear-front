@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
+import Select from "react-select";
 import { currentSelectedDatabaseContext } from '../App.js';
 import axios from 'axios';
 
@@ -87,7 +88,9 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      table: [...initialValue]
+      table: [...initialValue],
+      select: {}
+
     }
   });
 
@@ -99,13 +102,14 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
   const [formCount, setFormCount] = useState(fields.length); // フォームの数を保存する状態変数
 
   const onSubmit = formData => {
-    console.log(tableName);
     let data = {};
 
     for (let i = 0; i < formData.table.length; i++) {
       const element = formData.table[i];
-      data[i] = { "column_name": element.column_name, "column_type": element.column_type };
+      data[i] = { "column_name": element.column_name, "column_type": element.column_type.value };
     }
+
+    console.log(data);
 
     const body = JSON.stringify({ data, tableName, currentSelectedDatabase });
 
@@ -146,7 +150,33 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
             <Controller
               name={`table[${index}].column_type`}
               control={control}
-              render={({ field }) => <input {...field} placeholder="column_type" className="border-2 mx-2" />}
+              render={({ field }) => <Select
+                {...field}
+                options={[
+                  { "value": "TINYINT", "label": "TINYINT" },
+                  { "value": "SMALLINT", "label": "SMALLINT" },
+                  { "value": "MEDIUMINT", "label": "MEDIUMINT" },
+                  { "value": "INT", "label": "INT" },
+                  { "value": "BIGINT", "label": "BIGINT" },
+                  { "value": "FLOAT", "label": "FLOAT" },
+                  { "value": "DOUBLE", "label": "DOUBLE" },
+                  { "value": "DECIMAL", "label": "DECIMAL" },
+                  { "value": "NUMERIC", "label": "NUMERIC" },
+                  { "value": "BIT", "label": "BIT" },
+                  { "value": "DATE", "label": "DATE" },
+                  { "value": "TIME", "label": "TIME" },
+                  { "value": "DATETIME", "label": "DATETIME" },
+                  { "value": "TIMESTAMP", "label": "TIMESTAMP" },
+                  { "value": "YEAR", "label": "YEAR" },
+                  { "value": "VARCHAR(255)", "label": "VARCHAR(255)" },
+                  { "value": "CHAR(10)", "label": "CHAR(10)" },
+                  { "value": "BINARY", "label": "BINARY" },
+                  { "value": "VARBINARY", "label": "VARBINARY" },
+                  { "value": "BLOB", "label": "BLOB" },
+                  { "value": "TEXT", "label": "TEXT" },
+                  //Enum と Set はUIを考えてから 
+                ]}
+              />}
             />
             <button type="button" onClick={() => deleteForm(index)}>
               削除
