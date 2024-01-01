@@ -1,105 +1,28 @@
 import React, { useContext, useState } from 'react';
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
 import { v4 as uuidv4 } from 'uuid';
-import Select from "react-select";
-import { currentSelectedDatabaseContext } from '../App.js';
+import styleForInput from './styleForInput';
 import axios from 'axios';
+import { currentSelectedDatabaseContext } from '../App';
 
-const CreateTable = ({ setCreateTableFlag }) => {
-  const [page, setPage] = useState(1);
-  const [data, setData] = useState({ name: '', columnNum: 3 });
+const DynamicForm = ({ setCreateTableFlag }) => {
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue
-  } = useForm({
-    criteriaMode: 'all',
-    defaultValues: {
-      name: data.name,
-      columnNum: data.columnNum,
-    },
-  });
-
-  const handleOnSubmit = formData => {
-    setData(formData);
-    setPage(2);
-  };
-
-  const handleOnError = errors => console.log(errors);
-
-  if (page === 1) {
-
-    return (
-      <form onSubmit={handleSubmit(handleOnSubmit, handleOnError)}>
-        <div>
-          <label htmlFor="name">テーブル名: </label>
-          <input
-            {...register('name', {
-              required: 'テーブル前を入力してください',
-            })}
-            id='tableName'
-            type="text"
-            className="border-2 border-black rounded"
-          />
-          {errors.name && <p className="text-red-600">{errors.name.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="name">カラムの個数: </label>
-          <input
-            {...register('columnNum')}
-            type="number"
-            min={1}
-            max={255}
-            className="border-2 border-black rounded"
-          />
-        </div>
-        <button type="submit" className="border-2 border-black rounded">
-          決定
-        </button>
-      </form>
-    );
-  } else if (page === 2) {
-
-    const changeNum = (num) => {
-      setData({ name: data.name, columnNum: num });
-      setValue('columnNum', num);
-    };
-
-    return (
-      <>
-        <MiddleForm tableName={data.name} setPage={setPage} columnNum={data.columnNum} changeNum={changeNum} setCreateTableFlag={setCreateTableFlag} />
-      </>
-    );
-
-  }
-};
-
-const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFlag }) => {
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
-  const count = columnNum;
-
-  let initialValue = [];
-
-  for (let i = 0; i < count; i++) {
-    initialValue = [...initialValue, { column_name: "", column_type: "" }];
-  }
 
   const { control, handleSubmit } = useForm({
-    defaultValues: {
-      table: [...initialValue],
-      select: {}
-
-    }
+    defaultValues: { table: [{ column_name: '', column_type: '' }] },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "table",
-  });
+  const [formFields, setFormFields] = useState([{ id: uuidv4() }]);
 
-  const [formCount, setFormCount] = useState(fields.length); // フォームの数を保存する状態変数
+  const addForm = () => {
+    setFormFields([...formFields, { id: uuidv4() }]);
+  };
+
+  const deleteForm = (id) => {
+    setFormFields(formFields.filter((field) => field.id !== id));
+  };
 
   const onSubmit = formData => {
     let data = {};
@@ -109,7 +32,7 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
       data[i] = { "column_name": element.column_name, "column_type": element.column_type.value };
     }
 
-    console.log(data);
+    const tableName = formData.table_name;
 
     const body = JSON.stringify({ data, tableName, currentSelectedDatabase });
 
@@ -118,77 +41,94 @@ const MiddleForm = ({ setPage, columnNum, changeNum, tableName, setCreateTableFl
         console.log(response);
         setCreateTableFlag(true);
       });
-  };
 
-  const addForm = () => {
-    append({ column_name: "", column_type: "" });
-    setFormCount(formCount + 1); // フォームを追加したらフォームの数を更新
-  };
-
-  const deleteForm = (index) => {
-    remove(index);
-    setFormCount(formCount - 1); // フォームを削除したらフォームの数を更新
   };
 
   return (
-    <div className="border-black">
-      <button onClick={() => {
-        setPage(1);
-        changeNum(formCount);
-      }}>Page 1に戻る</button>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <button className="border-2" type="button" onClick={addForm}>
-          追加
-        </button>
-        {fields.map((item, index) => (
-          <div key={uuidv4()}>
-            <Controller
-              name={`table[${index}].column_name`}
-              control={control}
-              render={({ field }) => <input {...field} placeholder="column_name" className="border-2 mx-2" />}
-            />
-            <Controller
-              name={`table[${index}].column_type`}
-              control={control}
-              render={({ field }) => <Select
-                {...field}
-                options={[
-                  { "value": "TINYINT", "label": "TINYINT" },
-                  { "value": "SMALLINT", "label": "SMALLINT" },
-                  { "value": "MEDIUMINT", "label": "MEDIUMINT" },
-                  { "value": "INT", "label": "INT" },
-                  { "value": "BIGINT", "label": "BIGINT" },
-                  { "value": "FLOAT", "label": "FLOAT" },
-                  { "value": "DOUBLE", "label": "DOUBLE" },
-                  { "value": "DECIMAL", "label": "DECIMAL" },
-                  { "value": "NUMERIC", "label": "NUMERIC" },
-                  { "value": "BIT", "label": "BIT" },
-                  { "value": "DATE", "label": "DATE" },
-                  { "value": "TIME", "label": "TIME" },
-                  { "value": "DATETIME", "label": "DATETIME" },
-                  { "value": "TIMESTAMP", "label": "TIMESTAMP" },
-                  { "value": "YEAR", "label": "YEAR" },
-                  { "value": "VARCHAR(255)", "label": "VARCHAR(255)" },
-                  { "value": "CHAR(10)", "label": "CHAR(10)" },
-                  { "value": "BINARY", "label": "BINARY" },
-                  { "value": "VARBINARY", "label": "VARBINARY" },
-                  { "value": "BLOB", "label": "BLOB" },
-                  { "value": "TEXT", "label": "TEXT" },
-                  //Enum と Set はUIを考えてから 
-                ]}
-              />}
-            />
-            <button type="button" onClick={() => deleteForm(index)}>
-              削除
-            </button>
-          </div>
-        ))}
-        <button type="submit">送信</button>
-      </form>
-      <p>フォームの数: {formCount}</p>
+    <form onSubmit={handleSubmit(onSubmit)} >
+      <Controller
+        name={`table_name`}
+        control={control}
+        render={({ field }) => <input {...field} placeholder="TableName" className="border-2 mx-2 w-1/12" />}
+      />
+      {
+        formFields.map((field, index) => (
+          <DynamicFormField
+            key={field.id}
+            index={index}
+            formFields={formFields}
+            setFormFields={setFormFields}
+            deleteForm={deleteForm}
+            control={control}
+          />
+        ))
+      }
+      < button type="button" onClick={addForm} >
+        新しいセットを追加
+      </button >
+      <button type="submit">Submit</button>
+    </form >
+  );
+};
+
+const DynamicFormField = ({ index, formFields, deleteForm, control }) => {
+
+  // const customStyles = {
+  //   control: (provided, state) => ({
+  //     ...provided,
+  //     width: '8%',
+  //     '&:hover': {
+  //     },
+  //   }),
+  // }
+
+  return (
+    <div key={formFields[index].id} className='flex my-3'>
+      <Controller
+        name={`table[${index}].column_name`}
+        control={control}
+        render={({ field }) => <input {...field} placeholder="column_name" className={`${styleForInput}`} />}
+      />
+      <Controller
+        name={`table[${index}].column_type`}
+        control={control}
+        render={({ field }) => (
+          <Select
+            className={` ${styleForInput}`}
+            // styles={customStyles}
+            {...field}
+            options={[
+              { "value": "TINYINT", "label": "TINYINT" },
+              { "value": "SMALLINT", "label": "SMALLINT" },
+              { "value": "MEDIUMINT", "label": "MEDIUMINT" },
+              { "value": "INT", "label": "INT" },
+              { "value": "BIGINT", "label": "BIGINT" },
+              { "value": "FLOAT", "label": "FLOAT" },
+              { "value": "DOUBLE", "label": "DOUBLE" },
+              { "value": "DECIMAL", "label": "DECIMAL" },
+              { "value": "NUMERIC", "label": "NUMERIC" },
+              { "value": "BIT", "label": "BIT" },
+              { "value": "DATE", "label": "DATE" },
+              { "value": "TIME", "label": "TIME" },
+              { "value": "DATETIME", "label": "DATETIME" },
+              { "value": "TIMESTAMP", "label": "TIMESTAMP" },
+              { "value": "YEAR", "label": "YEAR" },
+              { "value": "VARCHAR(255)", "label": "VARCHAR(255)" },
+              { "value": "CHAR(10)", "label": "CHAR(10)" },
+              { "value": "BINARY", "label": "BINARY" },
+              { "value": "VARBINARY", "label": "VARBINARY" },
+              { "value": "BLOB", "label": "BLOB" },
+              { "value": "TEXT", "label": "TEXT" },
+              //Enum と Set はUIを考えてから 
+            ]}
+          />
+        )}
+      />
+      <button type="button" onClick={() => deleteForm(formFields[index].id)}>
+        削除
+      </button>
     </div>
   );
+};
 
-}
-
-export default CreateTable;
+export default DynamicForm;
