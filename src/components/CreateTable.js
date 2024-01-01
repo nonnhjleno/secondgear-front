@@ -6,7 +6,7 @@ import styleForInput from './styleForInput';
 import axios from 'axios';
 import { currentSelectedDatabaseContext } from '../App';
 
-const DynamicForm = ({ setCreateTableFlag }) => {
+const CreateTable = ({ setCreateTableFlag }) => {
 
   const currentSelectedDatabase = useContext(currentSelectedDatabaseContext);
 
@@ -53,7 +53,7 @@ const DynamicForm = ({ setCreateTableFlag }) => {
       />
       {
         formFields.map((field, index) => (
-          <DynamicFormField
+          <CreateTableField
             key={field.id}
             index={index}
             formFields={formFields}
@@ -71,7 +71,7 @@ const DynamicForm = ({ setCreateTableFlag }) => {
   );
 };
 
-const DynamicFormField = ({ index, formFields, deleteForm, control }) => {
+const CreateTableField = ({ index, formFields, deleteForm, control }) => {
 
   // const customStyles = {
   //   control: (provided, state) => ({
@@ -131,4 +131,4 @@ const DynamicFormField = ({ index, formFields, deleteForm, control }) => {
   );
 };
 
-export default DynamicForm;
+export default CreateTable;
