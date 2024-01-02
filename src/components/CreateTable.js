@@ -83,7 +83,10 @@ const CreateTableField = ({ index, formFields, deleteForm, control }) => {
   // }
 
   return (
-    <div key={formFields[index].id} className='flex my-3'>
+    <div key={formFields[index].id} className={`flex p-3 ${index % 2 === 0 ? 'bg-slate-300' :''}`}>
+      <button type="button" onClick={() => deleteForm(formFields[index].id)}>
+        削除
+      </button>
       <Controller
         name={`table[${index}].column_name`}
         control={control}
@@ -124,9 +127,6 @@ const CreateTableField = ({ index, formFields, deleteForm, control }) => {
           />
         )}
       />
-      <button type="button" onClick={() => deleteForm(formFields[index].id)}>
-        削除
-      </button>
     </div>
   );
 };
