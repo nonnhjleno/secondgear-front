@@ -27,15 +27,18 @@ const CreateTable = ({ setCreateTableFlag }) => {
 
   const onSubmit = formData => {
     let data = {};
-
+    console.log(formData);
     for (let i = 0; i < formData.table.length; i++) {
       const element = formData.table[i];
-      data[i] = { "column_name": element.column_name, "column_type": element.column_type.value };
+      const not_null = element.not_null === undefined ? 'false':'true';
+      data[i] = { "column_name": element.column_name, "column_type": element.column_type.value, 'not_null':not_null };
     }
 
     const tableName = formData.table_name;
 
     const body = JSON.stringify({ data, tableName, currentSelectedDatabase });
+
+    console.log(data);
 
     axios.post(`http://localhost:3000/createTable`, body, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
       .then(response => {
@@ -84,7 +87,7 @@ const CreateTableField = ({ index, formFields, deleteForm, control }) => {
   // }
 
   return (
-    <div key={formFields[index].id} className={`flex p-3 ${index % 2 === 0 ? 'bg-slate-300' :''}`}>
+    <div key={formFields[index].id} className={`flex p-3 ${index % 2 === 0 ? 'bg-slate-300' : ''}`}>
       <button type="button" onClick={() => deleteForm(formFields[index].id)}>
         削除
       </button>
@@ -105,6 +108,12 @@ const CreateTableField = ({ index, formFields, deleteForm, control }) => {
           />
         )}
       />
+      <Controller
+        name={`table[${index}].not_null`}
+        control={control}
+        render={({ field }) => <input type='checkbox' {...field} placeholder="NOT NULL" className=' w-8' />}
+      />
+
     </div>
   );
 };
