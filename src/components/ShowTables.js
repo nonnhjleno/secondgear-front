@@ -36,6 +36,7 @@ const CreateTableButton = ({ handleSetIsShowing }) => {
     return (
         <div
             onClick={() => handleSetIsShowing('createTable')}
+            className=' mb-5'
         >
             テーブル作成
         </div>
